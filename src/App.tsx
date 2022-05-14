@@ -1,14 +1,20 @@
 import './App.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import {
   decrement, devide, increment, incrementByAmount, multiply, reset,
 } from './store/reducers/counterSlice';
+import {
+  create, remove,
+} from './store/reducers/toDoSlice';
 import { RootState, AppDispatch } from './store';
 // import styles from './Counter.module.css';
 
 const App = () => {
   const count = useSelector((state: RootState) => state.counter.value);
+  const toDoes = useSelector((state: RootState) => state.toDoes.value);
   const dispatch = useDispatch<AppDispatch>();
+  const [inputValue, setInputValue] = useState('');
 
   return (
     <div>
@@ -53,6 +59,25 @@ const App = () => {
         >
           Reset
         </button>
+      </div>
+      <div>
+        <input value={inputValue} onChange={(e) => setInputValue(e.target.value)} type="text" />
+        <button onClick={() => {
+          dispatch(create(inputValue));
+          setInputValue('');
+        }}
+        >
+          Add ToDo
+
+        </button>
+        <div>
+          {toDoes.map((toDo) => (
+            <div key={Math.random()}>
+              {toDo}
+              <button onClick={(index) => dispatch(remove(index))}>Remove ToDo</button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
