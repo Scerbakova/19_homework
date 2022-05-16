@@ -1,3 +1,35 @@
-@import "./additional/flexboxgrid.scss";
 @import "./src/additional/reset.scss";
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
+
+.container {
+  background-color: rgb(103, 149, 189);
+  width: 100%;
+  min-height: 100vh;
+  color: azure;
+  font-weight: bold;
+}
+.header__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-bottom: 1px solid black;
+}
+.navigation {
+  display: flex;
+  column-gap: 20px;
+}
+.cards__wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  margin-bottom: 20px;
+}
+.button__load--more {
+display: flex;
+justify-content: center;
+}
+button {
+  background-color: aquamarine;
+}

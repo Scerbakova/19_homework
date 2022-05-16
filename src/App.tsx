@@ -7,7 +7,7 @@ import CartPage from './Pages/Cart/CartPage';
 import ShopPage from './Pages/Shop/ShopPage';
 
 const App = () => (
-  <div>
+  <div className="container">
     <Router>
       <Header />
       <Routes>

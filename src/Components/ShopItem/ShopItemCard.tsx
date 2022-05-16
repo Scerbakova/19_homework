@@ -21,7 +21,7 @@ const ShopItemCard = () => {
 
   return (
     <div>
-      <div>
+      <div className="cards__wrapper">
         {allShopItems && allShopItems.slice(0, visibleItems).map(({
           id, img, name, price,
         }) => (
@@ -43,9 +43,9 @@ const ShopItemCard = () => {
             <button onClick={() => dispatch(addToCart(getShopItem(id)))}>Add to cart</button>
           </div>
         ))}
-        <div>
-          <button onClick={showMoreItems}>Load More</button>
-        </div>
+      </div>
+      <div className="button__load--more">
+        <button onClick={showMoreItems}>Load More</button>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="header__container">
       <div>
         <button onClick={() => navigate('/')}>
           LOGO
