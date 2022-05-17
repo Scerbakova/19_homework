@@ -1,54 +1,57 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { AppDispatch, RootState } from '../../store';
-import { getShopItem, getShopItems, shopItem } from '../../Data/Products/shopItems';
-import { addToCart, increment, decrement } from '../../store/reducers/cartReducer';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { getShopItem, ShopItem } from '../../Data/Products/shopItems';
+import { addToCart, decrement, increment } from '../../store/reducers/cartReducer';
 
-const ShopItemCard = () => {
+const ShopItemCard: FC<ShopItem> = ({
+  id, img, name, price, count,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
-  const product = useSelector((state: RootState) => state.cart.value);
-  const [allShopItems, setAllShopItems] = useState<shopItem[]>();
-  const [visibleItems, setVisibleItems] = useState(3);
+  const [singleItem, setSingleItem] = useState<ShopItem>();
+  const [amount, setAmount] = useState(1);
 
   useEffect(() => {
-    const item = getShopItems();
-    setAllShopItems(item);
+    const item = getShopItem(id);
+    setSingleItem(item);
   }, []);
-
-  const showMoreItems = () => {
-    setVisibleItems((prevValue) => prevValue + 3);
-  };
 
   return (
     <div>
-      <div className="cards__wrapper">
-        {allShopItems && allShopItems.slice(0, visibleItems).map(({
-          id, img, name, price,
-        }) => (
-          <div key={id}>
-            <img src={img} alt="item" />
-            <div>{name}</div>
-            <div>{price}</div>
-            <button
-              onClick={() => dispatch(decrement(1))}
-            >
-              -
-            </button>
-            <span>{product}</span>
-            <button
-              onClick={() => dispatch(increment(1))}
-            >
-              +
-            </button>
-            <button onClick={() => dispatch(addToCart(getShopItem(id)))}>Add to cart</button>
-          </div>
-        ))}
-      </div>
-      <div className="button__load--more">
-        <button onClick={showMoreItems}>Load More</button>
-      </div>
+      <img src={img} alt="item" />
+      <div>{name}</div>
+      <div>{price}</div>
+      <button onClick={() => {
+        dispatch(decrement({ item: singleItem, count: amount }));
+        setAmount(amount > 0 ? amount - 1 : amount);
+      }}
+      >
+        -
+      </button>
+      <span>
+        {count}
+        quantity
+      </span>
+      <span>
+        {amount}
+      </span>
+      <button onClick={() => {
+        dispatch(increment({ item: singleItem, count: amount }));
+        setAmount(amount + 1);
+      }}
+      >
+        +
+      </button>
+      {singleItem && (
+      <button onClick={() => {
+        dispatch(addToCart({ item: singleItem, count: amount }));
+      }}
+      >
+        Add to cart
+      </button>
+      )}
+
     </div>
   );
 };
-
 export default ShopItemCard;

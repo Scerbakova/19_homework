@@ -1,35 +1,37 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import ShopItemCard from '../../Components/ShopItem/ShopItemCard';
 import { AppDispatch, RootState } from '../../store';
 import { clearCart, removeFromCart } from '../../store/reducers/cartReducer';
 
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const cart = useSelector((state: RootState) => state.cart);
+  const cart = useSelector((state: RootState) => state.cart.cartItems);
   const navigate = useNavigate();
 
   return (
     <div>
       <h1>Your Cart</h1>
-      {cart.cartItems.length === 0 ? (
+      {cart && cart.length === 0 ? (
         <div>
           <span>
             Empty
           </span>
-          <button onClick={() => navigate('/')}>start shopping</button>
+          <button onClick={() => navigate('/')}>Start shopping</button>
         </div>
       ) : (
         <div>
-          {cart.cartItems?.map(({
-            id, name, img, price,
+          {cart.map(({
+            id, name, img, price, count,
           }) => (
             <div>
-              <div>{id}</div>
-              <div>{name}</div>
-              <div>
-                <img src={img} alt="product" />
-              </div>
-              <div>{ price }</div>
+              <ShopItemCard
+                id={id}
+                name={name}
+                img={img}
+                price={price}
+                count={count}
+              />
               <button onClick={() => dispatch(removeFromCart({
                 id, name, img, price,
               }))}

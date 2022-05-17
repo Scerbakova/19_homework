@@ -1,23 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { shopItem } from '../../Data/Products/shopItems';
+import { ShopItem } from '../../Data/Products/shopItems';
 
 export const cartReducer = createSlice({
   name: 'cart',
   initialState: {
-    cartItems: <shopItem[]>[],
-    value: 0,
+    cartItems: <ShopItem[]>[],
   },
   reducers: {
-    addToCart(state, action) {
-      state.cartItems = [...state.cartItems, action.payload];
+    addToCart: (state: { cartItems: ShopItem[] }, action: { payload: { item: ShopItem; count: number } }) => {
+      const { cartItems } = state;
+      const { id } = action.payload.item;
+      const singleItem = cartItems.find((item) => item.id === id);
+      if (singleItem) {
+        singleItem.count += action.payload.count;
+      } else {
+        state.cartItems = [...state.cartItems, { ...action.payload.item, count: action.payload.count }];
+        console.log(cartItems.map((i) => i.count));
+      }
     },
-    increment: (state, action) => {
-      state.value += action.payload;
+    increment: ({ cartItems }, { payload }) => {
+      const singleItem = cartItems.find((item) => item === payload);
+      if (singleItem) {
+        singleItem.count += payload.count;
+      }
     },
-    decrement: (state, action) => {
-      state.value -= action.payload;
-      if (state.value <= 0) {
-        state.value = 0;
+    decrement: ({ cartItems }, { payload }) => {
+      const singleItem = cartItems.find((item) => item === payload);
+      if (singleItem) {
+        singleItem.count -= payload;
+        if (singleItem.count <= 0) {
+          singleItem.count = 0;
+        }
       }
     },
     removeFromCart(state, action) {
