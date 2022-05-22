@@ -3,7 +3,7 @@ export type ShopItem = {
   img: string,
   name: string,
   price: number,
-  count: number,
+  count?: number,
 }
 
 const shopItems: ShopItem[] = [

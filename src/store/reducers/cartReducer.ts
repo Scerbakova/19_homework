@@ -11,11 +11,10 @@ export const cartReducer = createSlice({
       const { cartItems } = state;
       const { id } = action.payload.item;
       const singleItem = cartItems.find((item) => item.id === id);
-      if (singleItem) {
+      if (singleItem?.count) {
         singleItem.count += action.payload.count;
       } else {
         state.cartItems = [...state.cartItems, { ...action.payload.item, count: action.payload.count }];
-        console.log(cartItems.map((i) => i.count));
       }
     },
     increment: ({ cartItems }, { payload }) => {
@@ -26,7 +25,7 @@ export const cartReducer = createSlice({
     },
     decrement: ({ cartItems }, { payload }) => {
       const singleItem = cartItems.find((item) => item === payload);
-      if (singleItem) {
+      if (singleItem?.count) {
         singleItem.count -= payload;
         if (singleItem.count <= 0) {
           singleItem.count = 0;
