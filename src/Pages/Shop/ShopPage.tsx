@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ShopItemCard from '../../Components/ShopItem/ShopItemCard';
-import { getShopItems, ShopItem } from '../../Data/Products/shopItems';
+import { RootState } from '../../store';
 
 const ShopPage = () => {
-  const [shopItems, setShopItems] = useState<ShopItem[]>();
   const [visibleItems, setVisibleItems] = useState(3);
-
-  useEffect(() => {
-    const allShopItems = getShopItems();
-    setShopItems(allShopItems);
-  }, []);
+  const shop = useSelector((state: RootState) => state.shop.items);
 
   const showMoreItems = () => {
     setVisibleItems((prevValue) => prevValue + 3);
@@ -18,10 +14,12 @@ const ShopPage = () => {
   return (
     <div>
       <div>
-        {shopItems && shopItems.slice(0, visibleItems).map(({
-          id, name, price, img, count,
+        {shop && shop.slice(0, visibleItems).map(({
+          id, name, price, img, count, addedToCart,
         }) => (
-          <ShopItemCard key={id} id={id} name={name} price={price} count={count} img={img} />
+          <div key={id}>
+            <ShopItemCard addedToCart={addedToCart} id={id} name={name} price={price} count={count} img={img} />
+          </div>
         ))}
       </div>
       <button onClick={showMoreItems}>Load More</button>

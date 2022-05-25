@@ -1,7 +1,19 @@
+import { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../store';
+import { showTotalPrice } from '../../store/reducers/cartReducer';
 
-const Header = () => {
+export type HeaderProps = {
+  cart: number
+}
+
+const Header: FC<HeaderProps> = () => {
   const navigate = useNavigate();
+
+  const totalcount = useSelector((state: RootState) => state.shop.total);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <div className="header__container">
@@ -17,10 +29,14 @@ const Header = () => {
             <option value="lv">LV</option>
           </select>
         </div>
-        <button onClick={() => navigate('/cart')}>
-          Cart
+        <button onClick={() => {
+          navigate('/cart');
+          dispatch(showTotalPrice());
+        }}
+        >
+          Items in your cart:
           {' '}
-          <span> 0 </span>
+          <span>{totalcount}</span>
         </button>
       </nav>
     </div>

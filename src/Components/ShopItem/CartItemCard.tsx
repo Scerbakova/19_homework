@@ -2,12 +2,10 @@ import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { ShopItem } from '../../Data/Products/shopItems';
-import {
-  addCount, addToCart, removeCount, showTotal,
-} from '../../store/reducers/cartReducer';
+import { addCount, removeCount, showTotalPrice } from '../../store/reducers/cartReducer';
 
-const ShopItemCard: FC<ShopItem> = ({
-  img, name, price, count, id,
+const CartItemCard: FC<ShopItem> = ({
+  id, img, name, price, count,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -19,6 +17,7 @@ const ShopItemCard: FC<ShopItem> = ({
         <div>{price}</div>
         <button onClick={() => {
           dispatch(removeCount(id));
+          dispatch(showTotalPrice());
         }}
         >
           -
@@ -28,20 +27,13 @@ const ShopItemCard: FC<ShopItem> = ({
         </span>
         <button onClick={() => {
           dispatch(addCount(id));
+          dispatch(showTotalPrice());
         }}
         >
           +
         </button>
       </div>
-      <button onClick={() => {
-        dispatch(addToCart(id));
-        dispatch(showTotal());
-      }}
-      >
-        Add to cart
-      </button>
-
     </div>
   );
 };
-export default ShopItemCard;
+export default CartItemCard;

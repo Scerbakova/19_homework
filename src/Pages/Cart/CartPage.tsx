@@ -1,18 +1,22 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import ShopItemCard from '../../Components/ShopItem/ShopItemCard';
+import CartItemCard from '../../Components/ShopItem/CartItemCard';
+// import shopItems from '../../Data/Products/shopItems';
 import { AppDispatch, RootState } from '../../store';
 import { clearCart, removeFromCart } from '../../store/reducers/cartReducer';
 
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const cart = useSelector((state: RootState) => state.cart.cartItems);
+  const cart = useSelector((state: RootState) => state.shop.items);
+  const totalPrice = useSelector((state: RootState) => state.shop.totalPrice);
   const navigate = useNavigate();
+
+  const itemsToBuy = cart.filter((item) => item.addedToCart === true);
 
   return (
     <div>
       <h1>Your Cart</h1>
-      {cart && cart.length === 0 ? (
+      {itemsToBuy && itemsToBuy.length === 0 ? (
         <div>
           <span>
             Empty
@@ -21,28 +25,31 @@ const CartPage = () => {
         </div>
       ) : (
         <div>
-          {cart.map(({
-            id, name, img, price, count,
+          <div>
+            TOTAL:
+            {' '}
+            {totalPrice}
+          </div>
+          {itemsToBuy.map(({
+            id, name, img, price, count, addedToCart,
           }) => (
-            <div>
-              <ShopItemCard
+            <div key={id}>
+              <CartItemCard
                 id={id}
                 name={name}
                 img={img}
                 price={price}
                 count={count}
+                addedToCart={addedToCart}
               />
-              <button onClick={() => dispatch(removeFromCart({
-                id, name, img, price,
-              }))}
-              >
+              <button onClick={() => dispatch(removeFromCart(id))}>
                 Remove
               </button>
             </div>
           ))}
         </div>
       )}
-      <button onClick={() => dispatch(clearCart([]))}>Clear Cart</button>
+      <button onClick={() => dispatch(clearCart())}>Clear Cart</button>
     </div>
   );
 };

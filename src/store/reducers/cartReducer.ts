@@ -1,57 +1,71 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ShopItem } from '../../Data/Products/shopItems';
+import shopItems from '../../Data/Products/shopItems';
 
-export const cartReducer = createSlice({
-  name: 'cart',
+export const shopReducer = createSlice({
+  name: 'shop',
   initialState: {
-    cartItems: <ShopItem[]>[],
+    items: shopItems,
+    total: 0,
+    totalPrice: '0',
   },
   reducers: {
-    addToCart: (state: { cartItems: ShopItem[] }, action: { payload: { item: ShopItem; count: number } }) => {
-      const { cartItems } = state;
-      const { id } = action.payload.item;
-      const singleItem = cartItems.find((item) => item.id === id);
-      if (singleItem?.count) {
-        singleItem.count += action.payload.count;
-      } else {
-        state.cartItems = [...state.cartItems, { ...action.payload.item, count: action.payload.count }];
-      }
-    },
-    increment: ({ cartItems }, { payload }) => {
-      const singleItem = cartItems.find((item) => item === payload);
-      if (singleItem) {
-        singleItem.count += payload.count;
-      }
-    },
-    decrement: ({ cartItems }, { payload }) => {
-      const singleItem = cartItems.find((item) => item === payload);
-      if (singleItem?.count) {
-        singleItem.count -= payload;
-        if (singleItem.count <= 0) {
-          singleItem.count = 0;
+    addCount: (state, action) => {
+      state.items = state.items.map((i) => {
+        if (i.id === action.payload) {
+          i.count += 1;
         }
-      }
-    },
-    removeFromCart(state, action) {
-      state.cartItems.map((cartItem) => {
-        if (cartItem.id === action.payload.id) {
-          const nextCartItems = state.cartItems.filter(
-            (item) => item.id !== cartItem.id,
-          );
-
-          state.cartItems = nextCartItems;
-        }
-        return state;
+        return i;
       });
     },
-    clearCart(state, action) {
-      state.cartItems = action.payload;
+    removeCount: (state, action) => {
+      state.items = state.items.map((i) => {
+        if (i.id === action.payload && i.count !== 0) {
+          i.count -= 1;
+          if (i.count === 0) {
+            i.addedToCart = false;
+          }
+        }
+        return i;
+      });
+    },
+    addToCart: (state, action) => {
+      state.items = state.items.map((i) => {
+        if (i.id === action.payload && i.count !== 0) {
+          i.addedToCart = true;
+        }
+        return i;
+      });
+    },
+    showTotal(state) {
+      const allItemsCounts = state.items.map((item) => item.count);
+      state.total = allItemsCounts.reduce((a, b) => a + b);
+    },
+    removeFromCart(state, action) {
+      state.items.map((i) => {
+        if (i.id === action.payload) {
+          i.addedToCart = false;
+        }
+        return i;
+      });
+    },
+    clearCart(state) {
+      // eslint-disable-next-line no-return-assign
+      state.items.map((i) => i.addedToCart = false);
+    },
+    showTotalPrice(state) {
+      const priceArray = <number[]>[];
+      state.items.map((item) => {
+        if (item.addedToCart === true && item.count > 0) {
+          const price = (item.price * item.count);
+          return priceArray.push(price);
+        } return priceArray;
+      }); state.totalPrice = priceArray.reduce((a, b) => a + b).toFixed(2);
     },
   },
 });
 
 export const {
-  addToCart, removeFromCart, clearCart, increment, decrement,
-} = cartReducer.actions;
+  addCount, removeCount, addToCart, showTotal, removeFromCart, clearCart, showTotalPrice,
+} = shopReducer.actions;
 
-export default cartReducer.reducer;
+export default shopReducer.reducer;

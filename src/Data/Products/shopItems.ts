@@ -3,7 +3,8 @@ export type ShopItem = {
   img: string,
   name: string,
   price: number,
-  count?: number,
+  count: number,
+  addedToCart: boolean,
 }
 
 const shopItems: ShopItem[] = [
@@ -13,6 +14,7 @@ const shopItems: ShopItem[] = [
     name: 'book',
     price: 9.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 2,
@@ -20,6 +22,7 @@ const shopItems: ShopItem[] = [
     name: 'table',
     price: 98.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 3,
@@ -27,6 +30,7 @@ const shopItems: ShopItem[] = [
     name: 'pillow',
     price: 5.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 4,
@@ -34,6 +38,7 @@ const shopItems: ShopItem[] = [
     name: 'ice cream',
     price: 2.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 5,
@@ -41,6 +46,7 @@ const shopItems: ShopItem[] = [
     name: 'keyboard',
     price: 4.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 6,
@@ -48,6 +54,7 @@ const shopItems: ShopItem[] = [
     name: 'book',
     price: 9.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 7,
@@ -55,6 +62,7 @@ const shopItems: ShopItem[] = [
     name: 'table',
     price: 98.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 8,
@@ -62,6 +70,7 @@ const shopItems: ShopItem[] = [
     name: 'pillow',
     price: 5.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 9,
@@ -69,6 +78,7 @@ const shopItems: ShopItem[] = [
     name: 'ice cream',
     price: 2.99,
     count: 0,
+    addedToCart: false,
   },
   {
     id: 10,
@@ -76,10 +86,8 @@ const shopItems: ShopItem[] = [
     name: 'keyboard',
     price: 4.99,
     count: 0,
+    addedToCart: false,
   },
 ];
-
-export const getShopItems = () => [...shopItems];
-export const getShopItem = (id: number) => shopItems.find((item) => item.id === id);
 
 export default shopItems;
