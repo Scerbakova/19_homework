@@ -33,13 +33,16 @@ const ShopItemCard: FC<ShopItem> = ({
           +
         </button>
       </div>
-      <button onClick={() => {
-        dispatch(addToCart(id));
-        dispatch(showTotal());
-      }}
-      >
-        Add to cart
-      </button>
+      <div>
+        <button
+          onClick={() => {
+            dispatch(addToCart(id));
+            dispatch(showTotal());
+          }}
+        >
+          Add to cart
+        </button>
+      </div>
 
     </div>
   );

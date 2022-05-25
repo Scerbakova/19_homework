@@ -1,7 +1,7 @@
 @import "./src/additional/reset.scss";
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
 
-.container {
+.app {
   background-color: rgb(103, 149, 189);
   width: 100%;
   min-height: 100vh;
@@ -20,7 +20,12 @@
   display: flex;
   column-gap: 20px;
 }
-.cards__wrapper {
+shop--page__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.shop--cards__wrapper {
   display: flex;
   flex-direction: row;
   column-gap: 30px;

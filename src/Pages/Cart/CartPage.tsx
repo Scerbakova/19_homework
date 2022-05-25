@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import CartItemCard from '../../Components/ShopItem/CartItemCard';
 // import shopItems from '../../Data/Products/shopItems';
 import { AppDispatch, RootState } from '../../store';
-import { clearCart, removeFromCart } from '../../store/reducers/cartReducer';
+import { clearCart, removeFromCart, showTotal } from '../../store/reducers/cartReducer';
 
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -38,18 +38,29 @@ const CartPage = () => {
                 id={id}
                 name={name}
                 img={img}
+                totalPrice={Number((price * count).toFixed(2))}
                 price={price}
                 count={count}
                 addedToCart={addedToCart}
               />
-              <button onClick={() => dispatch(removeFromCart(id))}>
+              <button onClick={() => {
+                dispatch(removeFromCart(id));
+                dispatch(showTotal());
+              }}
+              >
                 Remove
               </button>
             </div>
           ))}
         </div>
       )}
-      <button onClick={() => dispatch(clearCart())}>Clear Cart</button>
+      <button onClick={() => {
+        dispatch(showTotal());
+        dispatch(clearCart());
+      }}
+      >
+        Clear Cart
+      </button>
     </div>
   );
 };

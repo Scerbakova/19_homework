@@ -3,6 +3,7 @@ export type ShopItem = {
   img: string,
   name: string,
   price: number,
+  totalPrice?: number,
   count: number,
   addedToCart: boolean,
 }

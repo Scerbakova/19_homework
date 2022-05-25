@@ -12,13 +12,20 @@ const ShopPage = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="shop--page__wrapper">
+      <div className="shop--cards__wrapper">
         {shop && shop.slice(0, visibleItems).map(({
           id, name, price, img, count, addedToCart,
         }) => (
           <div key={id}>
-            <ShopItemCard addedToCart={addedToCart} id={id} name={name} price={price} count={count} img={img} />
+            <ShopItemCard
+              addedToCart={addedToCart}
+              id={id}
+              name={name}
+              price={price}
+              count={count}
+              img={img}
+            />
           </div>
         ))}
       </div>
