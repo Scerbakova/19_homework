@@ -44,6 +44,7 @@ export const shopReducer = createSlice({
       state.items.map((i) => {
         if (i.id === action.payload) {
           i.addedToCart = false;
+          i.count = 0;
         }
         return i;
       });
@@ -51,6 +52,10 @@ export const shopReducer = createSlice({
     clearCart(state) {
       // eslint-disable-next-line no-return-assign
       state.items.map((i) => i.addedToCart = false);
+    },
+    clearCount(state) {
+      // eslint-disable-next-line no-return-assign
+      state.items.map((i) => i.count = 0);
     },
     showTotalPrice(state) {
       const priceArray = <number[]>[];
@@ -65,7 +70,7 @@ export const shopReducer = createSlice({
 });
 
 export const {
-  addCount, removeCount, addToCart, showTotal, removeFromCart, clearCart, showTotalPrice,
+  addCount, removeCount, addToCart, showTotal, removeFromCart, clearCart, showTotalPrice, clearCount,
 } = shopReducer.actions;
 
 export default shopReducer.reducer;

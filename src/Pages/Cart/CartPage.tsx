@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import CartItemCard from '../../Components/ShopItem/CartItemCard';
-// import shopItems from '../../Data/Products/shopItems';
 import { AppDispatch, RootState } from '../../store';
-import { clearCart, removeFromCart, showTotal } from '../../store/reducers/cartReducer';
+import {
+  clearCart, clearCount, removeFromCart, showTotal,
+} from '../../store/reducers/cartReducer';
 
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -55,6 +56,7 @@ const CartPage = () => {
         </div>
       )}
       <button onClick={() => {
+        dispatch(clearCount());
         dispatch(showTotal());
         dispatch(clearCart());
       }}
