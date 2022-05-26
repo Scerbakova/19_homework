@@ -50,12 +50,16 @@ export const shopReducer = createSlice({
       });
     },
     clearCart(state) {
-      // eslint-disable-next-line no-return-assign
-      state.items.map((i) => i.addedToCart = false);
+      state.items.map((i) => {
+        i.addedToCart = false;
+        return i;
+      });
     },
     clearCount(state) {
-      // eslint-disable-next-line no-return-assign
-      state.items.map((i) => i.count = 0);
+      state.items.map((i) => {
+        i.count = 0;
+        return i;
+      });
     },
     showTotalPrice(state) {
       const priceArray = <number[]>[];
