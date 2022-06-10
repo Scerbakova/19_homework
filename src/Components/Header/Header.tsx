@@ -23,12 +23,6 @@ const Header: FC<HeaderProps> = () => {
         </button>
       </div>
       <nav className="navigation">
-        <div>
-          <select name="languages" id="languages">
-            <option value="en">EN</option>
-            <option value="lv">LV</option>
-          </select>
-        </div>
         <button onClick={() => {
           navigate('/cart');
           dispatch(showTotalPrice());
